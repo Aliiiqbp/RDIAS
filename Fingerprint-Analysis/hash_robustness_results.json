@@ -1,0 +1,9 @@
+{
+    "Salt and Pepper Noise": {
+        "0.005": {
+            "min": 0,
+            "max": 4,
+            "avg": 0.68
+        }
+    }
+}
