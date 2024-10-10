@@ -6,6 +6,16 @@ import itertools
 from scipy.spatial.distance import hamming
 import matplotlib.pyplot as plt
 import numpy as np
+import pdqhash
+import cv2
+
+
+def pdq_string_hash(image):
+    tmp_image = Image.open(image)
+    tmp_image = np.array(tmp_image)
+    hash_vector, _ = pdqhash.compute(tmp_image)
+    string_representation = ''.join(map(str, hash_vector.tolist()))
+    return string_representation
 
 
 # Function to compute perceptual hash
@@ -24,7 +34,13 @@ image_files = [f for f in os.listdir(image_dir) if os.path.isfile(os.path.join(i
 hashes = {}
 for image_file in sorted(image_files):
     image_path = os.path.join(image_dir, image_file)
-    hash_value = compute_phash(image_path)
+
+    # phash, whahs, ahash, dhash:
+    # hash_value = compute_phash(image_path)
+
+    # pdq:
+    hash_value = pdq_string_hash(image_path)
+
     hashes[image_file] = hash_value
 
 # Save the hash values into a CSV file
@@ -42,24 +58,6 @@ for (img1, hash1), (img2, hash2) in itertools.combinations(hashes.items(), 2):
     distance = sum(c1 != c2 for c1, c2 in zip(bin_hash1, bin_hash2))
     hamming_distances.append(distance)
 
-# hash_size = 64
-# normalized_distances = [distance / hash_size for distance in hamming_distances]
-# bins = [i / 10.0 for i in range(11)]
-
-# min_distance = min(hamming_distances)
-# max_distance = max(hamming_distances)
-
-# Set the bins to be a range that includes every integer from min_distance to max_distance
-# bins = range(min_distance, max_distance + 1)
-
-# Plot the distribution of the Hamming distances
-# plt.hist(hamming_distances, bins=bins, color='blue', alpha=0.7, edgecolor='black')
-# plt.xticks(bins, rotation=90)
-# plt.title('Distribution of Hamming Distances')
-# plt.xlabel('Hamming Distance')
-# plt.ylabel('Frequency')
-# plt.show()
-# #
 
 mean_distance = np.mean(hamming_distances)
 std_distance = np.std(hamming_distances)

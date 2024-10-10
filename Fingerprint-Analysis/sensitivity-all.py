@@ -1,6 +1,6 @@
 import os
 import random
-
+import pdqhash
 import numpy as np
 import cv2
 from PIL import Image
@@ -10,19 +10,26 @@ import json
 
 # Define the hash functions to be used
 hash_functions = {
-    'average_hash': imagehash.average_hash,
-    'dhash': imagehash.dhash,
-    'phash': imagehash.phash,
-    'whash': imagehash.whash
+    # 'average_hash': imagehash.average_hash,
+    # 'dhash': imagehash.dhash,
+    # 'phash': imagehash.phash,
+    # 'whash': imagehash.whash,
+    'pdqhash': pdqhash.compute
 }
 
 # Define the transformations and parameters
 transformations = {
     'Cropout': [0.2, 0.3],
-    # 'Cropping': [0.9, 0.7],
-    'Copy-Move': [0.1, 0.2]
-    # 'Inpainting': [0.1, 0.2]
+    'Cropping': [0.9, 0.7],
+    'Copy-Move': [0.1, 0.2],
+    'Inpainting': [0.1, 0.2]
 }
+
+def pdq_string_hash(image):
+    tmp_image = np.array(image)
+    hash_vector, _ = pdqhash.compute(tmp_image)
+    string_representation = ''.join(map(str, hash_vector.tolist()))
+    return string_representation
 
 
 # Hamming distance between two hash values
@@ -98,10 +105,17 @@ for hash_name, hash_func in hash_functions.items():
             for image_file in os.listdir(image_directory):
                 if image_file.lower().endswith(('.png', '.jpg', '.jpeg')):
                     original_image = Image.open(os.path.join(image_directory, image_file))
-                    original_hash = hash_func(original_image, hash_size=16)
+                    # phash, whahs, ahash, dhash:
+                    # original_hash = hash_func(original_image, hash_size=16)
+                    # PDQ:
+                    original_hash = pdq_string_hash(original_image)
 
                     transformed_image = apply_transformation(original_image, transformation, param)
-                    transformed_hash = hash_func(transformed_image, hash_size=16)
+
+                    # phash, whahs, ahash, dhash:
+                    # transformed_hash = hash_func(transformed_image, hash_size=16)
+                    # PDQ:
+                    transformed_hash = pdq_string_hash(transformed_image)
 
                     distance = hamming_distance(original_hash, transformed_hash)
                     hash_distances.append(distance)

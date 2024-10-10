@@ -4,6 +4,16 @@ from PIL import Image
 import numpy as np
 import matplotlib.pyplot as plt
 from io import BytesIO
+import pdqhash
+import cv2
+
+
+def pdq_string_hash(image):
+    tmp_image = cv2.imread(image)
+    tmp_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    hash_vector, _ = pdqhash.compute(tmp_image)
+    string_representation = ''.join(map(str, hash_vector.tolist()))
+    return string_representation
 
 
 def compute_hash(image):
@@ -45,14 +55,21 @@ def process_images(directory, quality=90):
             original_path = os.path.join(directory, filename)
 
             with Image.open(original_path) as original_image:
-                original_hash = compute_hash(original_image)
+                # phash, whash, dhash, ahash:
+                # original_hash = compute_hash(original_image)
+                # pdq:
+                original_hash = pdq_string_hash(original_image)
+
                 original_hashes[filename] = original_hash
 
                 # Compress the image in memory
                 compressed_image = compress_image_in_memory(original_image, quality=quality)
 
                 # Compute the hash for the compressed image
-                compressed_hash = compute_hash(compressed_image)
+                # phash, whash, dhash, ahash:
+                # compressed_hash = compute_hash(compressed_image)
+                # pdq:
+                compressed_hash = pdq_string_hash(compressed_image)
 
                 # Compute the Hamming distance between original and compressed image
                 distance = hamming_distance(original_hash, compressed_hash)

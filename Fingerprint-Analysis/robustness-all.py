@@ -5,12 +5,14 @@ from scipy.ndimage import gaussian_filter
 from skimage.util import random_noise
 import imagehash
 import json
+import pdqhash
+import cv2
 
 
 # Define the transformations and parameters
 transformations = {
-    # 'JPEG Compression': [50, 70, 90],
-    # 'Resizing': [0.25, 0.5, 0.75],
+    # 'JPEG Compression': [70, 90],  # 50, 70, 90
+    # 'Resizing': [0.5, 0.75],  # 0.25, 0.5, 0.75
     'Gaussian Noise': [0.2, 0.4],
     # 'Salt and Pepper Noise': [0.005]
 }
@@ -19,6 +21,13 @@ transformations = {
 # Hash function (using perceptual hash based on DCT)
 def compute_hash(image):
     return imagehash.phash(image, hash_size=16)
+
+
+def pdq_string_hash(image):
+    tmp_image = np.array(image)
+    hash_vector, _ = pdqhash.compute(tmp_image)
+    string_representation = ''.join(map(str, hash_vector.tolist()))
+    return string_representation
 
 
 def hamming_distance(hash1, hash2):
@@ -69,11 +78,20 @@ for transformation, params in transformations.items():
         hash_distances = []
         for image_file in os.listdir(image_directory):
             if image_file.lower().endswith(('.png', '.jpg', '.jpeg')):
+                # phash, dhash, ahash, whash:
+                # original_image = Image.open(os.path.join(image_directory, image_file))
+                # original_hash = compute_hash(original_image)
+
+                # PDQ:
                 original_image = Image.open(os.path.join(image_directory, image_file))
-                original_hash = compute_hash(original_image)
+                original_hash = pdq_string_hash(original_image)
 
                 transformed_image = apply_transformation(original_image, transformation, param)
-                transformed_hash = compute_hash(transformed_image)
+
+                # phash, dhash, ahash, whash:
+                # transformed_hash = compute_hash(transformed_image)
+                # PDQ:
+                transformed_hash = pdq_string_hash(transformed_image)
 
                 distance = hamming_distance(original_hash, transformed_hash)
                 hash_distances.append(distance)
@@ -90,7 +108,7 @@ for transformation, params in transformations.items():
 
 
 # Save results to a file
-output_file = 'phash_256_robustness_results.json'
+output_file = 'pdq_256_robustness_results.json'
 with open(output_file, 'w') as f:
     json.dump(results, f, indent=4)
 
