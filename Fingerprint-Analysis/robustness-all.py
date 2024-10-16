@@ -41,9 +41,9 @@ def neuralhash(image):
 
 # Define the transformations and parameters
 transformations = {
-    'JPEG Compression': [70],  # 50, 70, 90
-    'Resizing': [0.5],  # 0.25, 0.5, 0.75
-    # 'Gaussian Noise': [0.2, 0.4],
+    'JPEG Compression': [50, 90],  # 50, 70, 90
+    'Resizing': [0.25, 0.75],  # 0.25, 0.5, 0.75
+    'Gaussian Noise': [0.2, 0.4]
     # 'Salt and Pepper Noise': [0.005]
 }
 
