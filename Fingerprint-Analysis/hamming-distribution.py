@@ -8,6 +8,36 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pdqhash
 import cv2
+import onnxruntime
+from PIL import Image
+
+
+def neuralhash(image):
+    # Load ONNX model
+    # session = onnxruntime.InferenceSession(sys.argv[1])
+    session = onnxruntime.InferenceSession('neuralhash-files/model.onnx')
+
+    # Load output hash matrix
+    seed1 = open('neuralhash-files/neuralhash_128x96_seed1.dat', 'rb').read()[128:]
+    seed1 = np.frombuffer(seed1, dtype=np.float32)
+    seed1 = seed1.reshape([96, 128])
+
+    # Preprocess image
+    img = Image.open(image).convert('RGB')
+    img = img.resize([360, 360])
+    arr = np.array(img).astype(np.float32) / 255.0
+    arr = arr * 2.0 - 1.0
+    arr = arr.transpose(2, 0, 1).reshape([1, 3, 360, 360])
+
+    # Run model
+    inputs = {session.get_inputs()[0].name: arr}
+    outs = session.run(None, inputs)
+
+    # Convert model output to hex hash
+    hash_output = seed1.dot(outs[0].flatten())
+    hash_bits = ''.join(['1' if it >= 0 else '0' for it in hash_output])
+
+    return hash_bits
 
 
 def pdq_string_hash(image):
@@ -39,7 +69,11 @@ for image_file in sorted(image_files):
     # hash_value = compute_phash(image_path)
 
     # pdq:
-    hash_value = pdq_string_hash(image_path)
+    # hash_value = pdq_string_hash(image_path)
+
+    # neuralhash
+    hash_value = neuralhash(image_path)
+    print(hash_value)
 
     hashes[image_file] = hash_value
 

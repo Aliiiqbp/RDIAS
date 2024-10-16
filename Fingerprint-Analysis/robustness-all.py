@@ -7,13 +7,43 @@ import imagehash
 import json
 import pdqhash
 import cv2
+import onnxruntime
+from PIL import Image
+
+
+def neuralhash(image):
+    # Load ONNX model
+    # session = onnxruntime.InferenceSession(sys.argv[1])
+    session = onnxruntime.InferenceSession('neuralhash-files/model.onnx')
+
+    # Load output hash matrix
+    seed1 = open('neuralhash-files/neuralhash_128x96_seed1.dat', 'rb').read()[128:]
+    seed1 = np.frombuffer(seed1, dtype=np.float32)
+    seed1 = seed1.reshape([96, 128])
+
+    # Preprocess image
+    img = image.convert('RGB')
+    img = img.resize([360, 360])
+    arr = np.array(img).astype(np.float32) / 255.0
+    arr = arr * 2.0 - 1.0
+    arr = arr.transpose(2, 0, 1).reshape([1, 3, 360, 360])
+
+    # Run model
+    inputs = {session.get_inputs()[0].name: arr}
+    outs = session.run(None, inputs)
+
+    # Convert model output to hex hash
+    hash_output = seed1.dot(outs[0].flatten())
+    hash_bits = ''.join(['1' if it >= 0 else '0' for it in hash_output])
+
+    return hash_bits
 
 
 # Define the transformations and parameters
 transformations = {
-    # 'JPEG Compression': [70, 90],  # 50, 70, 90
-    # 'Resizing': [0.5, 0.75],  # 0.25, 0.5, 0.75
-    'Gaussian Noise': [0.2, 0.4],
+    'JPEG Compression': [70],  # 50, 70, 90
+    'Resizing': [0.5],  # 0.25, 0.5, 0.75
+    # 'Gaussian Noise': [0.2, 0.4],
     # 'Salt and Pepper Noise': [0.005]
 }
 
@@ -78,20 +108,27 @@ for transformation, params in transformations.items():
         hash_distances = []
         for image_file in os.listdir(image_directory):
             if image_file.lower().endswith(('.png', '.jpg', '.jpeg')):
+
                 # phash, dhash, ahash, whash:
                 # original_image = Image.open(os.path.join(image_directory, image_file))
                 # original_hash = compute_hash(original_image)
 
                 # PDQ:
+                # original_image = Image.open(os.path.join(image_directory, image_file))
+                # original_hash = pdq_string_hash(original_image)
+
+                # Apple NeuralHash
                 original_image = Image.open(os.path.join(image_directory, image_file))
-                original_hash = pdq_string_hash(original_image)
+                original_hash = neuralhash(original_image)
 
                 transformed_image = apply_transformation(original_image, transformation, param)
 
                 # phash, dhash, ahash, whash:
                 # transformed_hash = compute_hash(transformed_image)
                 # PDQ:
-                transformed_hash = pdq_string_hash(transformed_image)
+                # transformed_hash = pdq_string_hash(transformed_image)
+                # Apple:
+                transformed_hash = neuralhash(transformed_image)
 
                 distance = hamming_distance(original_hash, transformed_hash)
                 hash_distances.append(distance)
@@ -108,13 +145,12 @@ for transformation, params in transformations.items():
 
 
 # Save results to a file
-output_file = 'pdq_256_robustness_results.json'
+output_file = 'neuralhash_96_robustness_results.json'
 with open(output_file, 'w') as f:
     json.dump(results, f, indent=4)
 
 
 print(f'Results saved to {output_file}')
-
 
 
 '''

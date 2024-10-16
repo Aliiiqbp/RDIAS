@@ -60,5 +60,3 @@ for file_name in os.listdir(input_directory):
         process_csv(file_path)
 
 print("Processing completed!")
-
-
