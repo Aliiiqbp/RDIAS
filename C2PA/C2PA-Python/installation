@@ -1,0 +1,5 @@
+rustup default stable
+
+pip install uniffi-bindgen
+
+pip install -U c2pa-python
