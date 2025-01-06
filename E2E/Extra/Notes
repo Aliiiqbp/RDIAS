@@ -1,0 +1,4 @@
+1. For the experiments in this folder, I removed all small images (lower than 1024 resolution on at least one dimension W or H).
+So, all the images are greater than or equal to 1024 * 1024.
+
+

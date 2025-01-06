@@ -1,0 +1,12 @@
+1. Immunization:
+    CLIC >>> Done: ALL
+    DIV2K >>> Done: ALL
+    MetFace >>> Done: ALL
+2. Transformation:
+    CLIC >>> Done: gaussian - gaussian blr - brightness - contrast - saturation - average F - median F - cropout - dropout - jpeg2000 - pixel el - webp - splicing - resize R - resize NR
+    DIV2K >>> Done: brightness - contrast - saturation - average F - median F - cropout - dropout - jpeg2000 - pixel el - webp
+    MetFace >>> Done: brightness - contrast - saturation - average F - median F - dropout - jpeg2000 - pixel el - webp
+3. Verification:
+    CLIC >>> Done:
+    DIV2K >>> Done:
+    MetFace >>> Done:

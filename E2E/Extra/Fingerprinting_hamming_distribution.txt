@@ -1,0 +1,16 @@
+Size: 100
+---------------
+average hash: mean = 48.28 std = 11.34
+distance hash: mean = 49.27 std = 6.44
+wavelet hash: mean = 48.92 std = 10.04
+perceptual hash: mean = 49.13 std = 5.24
+NeuralHash: mean = 47.61 std = 5.88
+
+
+Size: 256
+---------------
+average hash: mean = 123.87 std: 26.03
+distance hash: mean = 126.46 std = 11.04
+wavelet hash: mean = 123.90 std = 26.32
+perceptual hash: mean = 126.95 std = 8.41
+PDQ: mean = 127.66 std = 8.32
