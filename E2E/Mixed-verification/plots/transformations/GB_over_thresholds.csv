@@ -1,0 +1,11 @@
+Filename,Less or Equal to Threshold,Greater than Threshold,Threshold
+GB.csv,53.0,47.0,0
+GB.csv,53.0,47.0,1
+GB.csv,93.7,6.3,2
+GB.csv,93.8,6.2,3
+GB.csv,98.15,1.85,4
+GB.csv,98.4,1.6,5
+GB.csv,99.0,1.0,6
+GB.csv,99.05,0.95,7
+GB.csv,99.05,0.95,8
+GB.csv,99.1,0.9,9

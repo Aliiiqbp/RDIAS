@@ -1,0 +1,11 @@
+Filename,Less or Equal to Threshold,Greater than Threshold,Threshold
+common.csv,50.4,49.6,0
+common.csv,50.5,49.5,1
+common.csv,89.3,10.7,2
+common.csv,89.65,10.35,3
+common.csv,94.85,5.15,4
+common.csv,95.65,4.35,5
+common.csv,96.8,3.2,6
+common.csv,96.95,3.05,7
+common.csv,97.4,2.6,8
+common.csv,97.45,2.55,9

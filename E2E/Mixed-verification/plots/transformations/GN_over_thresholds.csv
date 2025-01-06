@@ -1,0 +1,11 @@
+Filename,Less or Equal to Threshold,Greater than Threshold,Threshold
+GN.csv,53.85,46.15,0
+GN.csv,53.85,46.15,1
+GN.csv,93.3,6.7,2
+GN.csv,93.35,6.65,3
+GN.csv,98.0,2.0,4
+GN.csv,98.25,1.75,5
+GN.csv,98.9,1.1,6
+GN.csv,98.95,1.05,7
+GN.csv,99.0,1.0,8
+GN.csv,99.0,1.0,9

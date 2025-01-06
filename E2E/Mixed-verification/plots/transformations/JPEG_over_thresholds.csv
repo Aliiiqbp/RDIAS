@@ -1,0 +1,11 @@
+Filename,Less or Equal to Threshold,Greater than Threshold,Threshold
+JPEG.csv,49.75,50.25,0
+JPEG.csv,50.0,50.0,1
+JPEG.csv,88.05,11.95,2
+JPEG.csv,88.55,11.45,3
+JPEG.csv,94.2,5.8,4
+JPEG.csv,94.85,5.15,5
+JPEG.csv,95.8,4.2,6
+JPEG.csv,96.25,3.75,7
+JPEG.csv,96.5,3.5,8
+JPEG.csv,96.7,3.3,9

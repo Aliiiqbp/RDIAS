@@ -1,0 +1,10 @@
+Filename,Less or Equal to Threshold,Greater than Threshold
+JPEG.csv,1925,75
+obj-remove.csv,16,1984
+cropping.csv,0,2000
+common.csv,1939,61
+GN.csv,1979,21
+Resize.csv,1980,20
+obj-add.csv,7,1993
+attack.csv,10,1990
+GB.csv,1981,19

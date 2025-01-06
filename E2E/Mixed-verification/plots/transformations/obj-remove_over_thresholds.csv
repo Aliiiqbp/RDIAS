@@ -1,0 +1,11 @@
+Filename,Less or Equal to Threshold,Greater than Threshold,Threshold
+obj-remove.csv,0.0,100.0,0
+obj-remove.csv,0.0,100.0,1
+obj-remove.csv,0.1,99.9,2
+obj-remove.csv,0.1,99.9,3
+obj-remove.csv,0.4,99.6,4
+obj-remove.csv,0.45,99.55,5
+obj-remove.csv,0.8,99.2,6
+obj-remove.csv,0.8,99.2,7
+obj-remove.csv,1.9,98.1,8
+obj-remove.csv,1.9,98.1,9
