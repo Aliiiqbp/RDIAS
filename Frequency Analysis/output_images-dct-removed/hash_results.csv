@@ -1,0 +1,8 @@
+Filename,Hash,Hamming Distance
+original_image.png,ee64e13f33b6b08f9054e1cc8,0
+image_50_percent_removed.png,ee64e13f33b6b08f9054e1cc8,0
+image_70_percent_removed.png,ee64e13f33b6b08f9054e1cc8,0
+image_80_percent_removed.png,ee64e13f33b6b08f9054e1cc8,0
+image_90_percent_removed.png,ee64e13f33b6b08f9054e1cc8,0
+image_95_percent_removed.png,ee64e13f33b6b08f9054e1cc8,0
+image_99_percent_removed.png,ee64e13f33b6b08f9054e1cc8,0
