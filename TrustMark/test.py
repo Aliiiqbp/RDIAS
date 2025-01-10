@@ -53,11 +53,11 @@ if mse > 0:
   print('PSNR = %f' % psnr)
 
 # removal
-stego = Image.open(outfile).convert('RGB')
-im_recover = tm.remove_watermark(stego)
-im_recover.save('recovered.png', exif=stego.info.get('exif'), icc_profile=stego.info.get('icc_profile'), dpi=stego.info.get('dpi'))
-wm_secret, wm_present, wm_schema = tm.decode(im_recover)
-if wm_present:
-  print(f'Extracted secret: {wm_secret} (schema {wm_schema})')
-else:
-   print('No secret after removal')
+# stego = Image.open(outfile).convert('RGB')
+# im_recover = tm.remove_watermark(stego)
+# im_recover.save('recovered.png', exif=stego.info.get('exif'), icc_profile=stego.info.get('icc_profile'), dpi=stego.info.get('dpi'))
+# wm_secret, wm_present, wm_schema = tm.decode(im_recover)
+# if wm_present:
+#   print(f'Extracted secret: {wm_secret} (schema {wm_schema})')
+# else:
+#    print('No secret after removal')
